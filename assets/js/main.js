@@ -265,6 +265,15 @@
      9. INITIALIZE ALL
      ========================================================= */
   function init() {
+    // Hide splash screen after 2 seconds
+    const splashScreen = document.getElementById('splash-screen');
+    if (splashScreen) {
+      setTimeout(() => {
+        splashScreen.classList.add('hidden');
+        document.body.style.overflow = 'auto'; // Re-enable scroll if we want
+      }, 2000);
+    }
+
     initNavbar();
     initHamburger();
     initProjectFilter();
