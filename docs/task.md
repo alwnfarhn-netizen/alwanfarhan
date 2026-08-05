@@ -171,7 +171,7 @@
 
 - [ ] Buat akun GitHub (jika belum ada)
 - [ ] Buat repository baru (nama: `username.github.io`)
-- [ ] Push semua file ke repository
+- [x] Push semua file ke repository (Local git sudah di-commit)
 - [ ] Aktifkan GitHub Pages di Settings
 - [ ] Verifikasi live di `https://username.github.io`
 - [ ] (Opsional) Setup custom domain

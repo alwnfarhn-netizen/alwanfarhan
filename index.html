@@ -42,6 +42,9 @@
   <link rel="stylesheet" href="assets/css/components.css">
   <link rel="stylesheet" href="assets/css/animations.css">
 
+  <!-- Lottie Player -->
+  <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
   <!-- Theme script — load FIRST to prevent flash of wrong theme -->
   <script src="assets/js/theme.js"></script>
 
@@ -366,9 +369,16 @@
 
         <div class="skills-layout">
           
-          <!-- Kolom Kiri: Ilustrasi -->
+          <!-- Kolom Kiri: Ilustrasi Animasi -->
           <div class="skills-illustration animate-slide-left">
-            <img src="assets/images/skills-illustration.png" alt="Ilustrasi UI/UX dan Web Development" loading="lazy" style="width: 100%; max-width: 500px; margin: 0 auto; display: block; border-radius: var(--radius-2xl);">
+            <lottie-player 
+              src="assets/lottie/codingPerson.json" 
+              background="transparent" 
+              speed="1" 
+              style="width: 100%; max-width: 500px; margin: 0 auto; display: block;" 
+              loop 
+              autoplay>
+            </lottie-player>
           </div>
 
           <!-- Kolom Kanan: Teks & Ikon -->
