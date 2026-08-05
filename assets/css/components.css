@@ -1117,3 +1117,47 @@
 .back-to-top:hover {
   color: white;
 }
+/* ==========================================================
+   SPLASH SCREEN
+   ========================================================== */
+.splash-container {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: var(--bg-primary);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.splash-container.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.splash-animation-container {
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.splash-title-container {
+  font-size: 2.5rem;
+  margin-top: -2rem;
+  text-decoration: none;
+}
+
+.splash-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  padding: 0 10px;
+  color: var(--text-primary);
+}
+
+.grey-color {
+  color: var(--text-secondary);
+}
