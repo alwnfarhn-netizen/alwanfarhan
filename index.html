@@ -45,6 +45,9 @@
   <!-- Lottie Player -->
   <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
+  <!-- Physics & Lanyard Script -->
+  <script src="assets/js/lanyard.js" defer></script>
+
   <!-- Theme script — load FIRST to prevent flash of wrong theme -->
   <script src="assets/js/theme.js"></script>
 
@@ -243,21 +246,40 @@
             </div>
           </div>
 
-          <!-- Hero Photo -->
-          <div class="hero-animate-photo" style="display: flex; justify-content: center; align-items: flex-end;" aria-hidden="false">
-            <div class="profile-float">
-              <!-- Glow aura di belakang -->
-              <div class="profile-aura" aria-hidden="true"></div>
-              <!-- Foto cutout tanpa bingkai, fully transparent background -->
-              <img
-                src="assets/images/profile/profil-alwan-final.png"
-                alt="M. Alwan Farhan — Foto profil"
-                class="profile-img-free"
-                width="320"
-                loading="eager"
-                id="hero-photo">
-              <!-- Bayangan di bawah kaki -->
-              <div class="profile-shadow" aria-hidden="true"></div>
+          <!-- Hero Photo: Interactive Hanging ID Card -->
+          <div class="hero-animate-photo" style="display: flex; justify-content: center; position: relative; height: 100%; min-height: 500px;" aria-hidden="false">
+            <div class="lanyard-container" id="lanyard-container">
+              <!-- Anchor point at the top of the container -->
+              <div class="lanyard-anchor"></div>
+              
+              <!-- The swinging body -->
+              <div class="lanyard-swing" id="lanyard-swing">
+                <div class="lanyard-strap"></div>
+                
+                <div class="id-card-wrapper">
+                  <div class="lanyard-clip"></div>
+                  <div class="id-card">
+                    <div class="id-card__header">
+                      <span class="id-card__logo-text">Alwan<span style="opacity:0.6">.</span></span>
+                      <span class="badge badge-accent" style="font-size: 0.6rem; padding: 2px 6px;">A11Y</span>
+                    </div>
+                    
+                    <div class="id-card__photo">
+                      <img src="assets/images/profile/profil-alwan-final.png" alt="M. Alwan Farhan" loading="eager">
+                    </div>
+                    
+                    <div class="id-card__body">
+                      <h3 class="id-card__name">M. Alwan Farhan</h3>
+                      <p class="id-card__role">Accessibility Specialist &<br>Inclusive Designer</p>
+                      
+                      <div class="id-card__footer">
+                        <div class="id-card__barcode"></div>
+                        <span class="id-card__id-number">EST 2022</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
