@@ -403,6 +403,7 @@
 /* ============================================================
    14. REDUCED MOTION — OVERRIDE ALL (A11Y — WAJIB)
    ============================================================ */
+/*
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -432,3 +433,4 @@
     transform: none !important;
   }
 }
+*/

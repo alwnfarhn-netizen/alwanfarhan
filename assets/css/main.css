@@ -365,6 +365,7 @@ button {
 /* ============================================================
    8. REDUCED MOTION (A11Y — WAJIB)
    ============================================================ */
+/*
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
@@ -373,3 +374,4 @@ button {
     scroll-behavior: auto !important;
   }
 }
+*/

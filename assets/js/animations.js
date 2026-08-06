@@ -12,9 +12,8 @@
 (function AnimationManager() {
   'use strict';
 
-  // Check if user prefers reduced motion
-  const prefersReducedMotion = window.matchMedia &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Force animations on (disable prefers-reduced-motion check temporarily for debugging)
+  const prefersReducedMotion = false;
 
   /**
    * 1. SCROLL ANIMATION — IntersectionObserver
