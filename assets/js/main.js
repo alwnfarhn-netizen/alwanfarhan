@@ -15,23 +15,46 @@
   'use strict';
 
   /* =========================================================
-     1. NAVBAR — Scroll behavior & active link
+     1. NAVBAR — Headroom + Hover Logic
      ========================================================= */
   function initNavbar() {
     const navbar = document.querySelector('.navbar');
     if (!navbar) return;
 
-    // Add scrolled class when user scrolls
+    let lastScrollY = window.scrollY;
+
     const handleScroll = () => {
-      if (window.scrollY > 20) {
+      const currentScrollY = window.scrollY;
+
+      // Add/remove scrolled class for background styling
+      if (currentScrollY > 20) {
         navbar.classList.add('scrolled');
       } else {
         navbar.classList.remove('scrolled');
       }
+
+      // Headroom Logic: Hide on scroll down, show on scroll up
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling down
+        navbar.classList.add('navbar--hidden');
+      } else {
+        // Scrolling up
+        navbar.classList.remove('navbar--hidden');
+      }
+
+      lastScrollY = currentScrollY;
       updateActiveNavLink();
     };
 
+    const handleMouseMove = (e) => {
+      // Show navbar if cursor is near the top edge (e.g. within 60px)
+      if (e.clientY <= 60) {
+        navbar.classList.remove('navbar--hidden');
+      }
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     handleScroll(); // Run on init
   }
 

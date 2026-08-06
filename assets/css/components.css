@@ -248,18 +248,24 @@
    5. NAVIGATION BAR
    ============================================================ */
 .navbar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 100%;
   z-index: 100;
   padding: var(--space-4) 0;
   background: rgba(250, 250, 250, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid transparent;
-  transition: background var(--duration-normal) var(--ease-in-out),
+  transition: transform var(--duration-normal) var(--ease-in-out),
+              background var(--duration-normal) var(--ease-in-out),
               border-color var(--duration-normal) var(--ease-in-out),
               box-shadow var(--duration-normal) var(--ease-in-out),
               padding var(--duration-normal) var(--ease-in-out);
+}
+.navbar--hidden {
+  transform: translateY(-100%);
 }
 
 [data-theme="dark"] .navbar {
