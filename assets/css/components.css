@@ -1174,7 +1174,7 @@
 .lanyard-container {
   position: absolute;
   top: -80px; /* Start from above the viewport/container */
-  left: 50%;
+  left: 35%;
   transform: translateX(-50%);
   width: 250px;
   height: 600px;

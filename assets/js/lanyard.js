@@ -13,38 +13,42 @@
     let velocityY = 0;
     
     // Spring physics constants
-    const stiffness = 0.03; // Lower = looser swing
-    const damping = 0.94;   // Higher = longer swing duration
-    
-    // Mouse tracking for parallax
-    let targetX = 0;
-    let targetY = 0;
+    const stiffness = 0.05; // Force pulling back to center
+    const damping = 0.92;   // Friction
+
+    // Drag state
+    let isDragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let initialAngleX = 0;
+    let initialAngleY = 0;
+    let previousMouseX = 0;
+    let flickVelocityX = 0;
+
+    // Set grab cursor
+    swingElement.style.cursor = 'grab';
 
     // Animation loop
     function updatePhysics() {
-      // Calculate spring force towards target (which usually decays to 0)
-      const forceX = (targetX - currentAngleX) * stiffness;
-      const forceY = (targetY - currentAngleY) * (stiffness * 1.5);
+      if (!isDragging) {
+        // Calculate spring force towards 0 (rest position)
+        const forceX = (0 - currentAngleX) * stiffness;
+        const forceY = (0 - currentAngleY) * (stiffness * 1.5);
+        
+        // Apply force to velocity and apply friction
+        velocityX = (velocityX + forceX) * damping;
+        velocityY = (velocityY + forceY) * damping;
+        
+        // Update angles
+        currentAngleX += velocityX;
+        currentAngleY += velocityY;
+      }
       
-      // Apply force to velocity and apply friction (damping)
-      velocityX = (velocityX + forceX) * damping;
-      velocityY = (velocityY + forceY) * damping;
+      // Calculate 3D tilt based on velocity to make it feel physical
+      const tiltX = isDragging ? 0 : Math.abs(velocityX) * 0.3;
       
-      // Update angles
-      currentAngleX += velocityX;
-      currentAngleY += velocityY;
-      
-      // Apply 3D rotation: 
-      // Z rotates it like a pendulum.
-      // Y twists it slightly for 3D effect.
-      // X adds a slight tilt forwards/backwards based on speed.
-      const tiltX = Math.abs(velocityX) * 0.5;
-      
+      // Apply 3D rotation
       swingElement.style.transform = `rotateZ(${currentAngleX}deg) rotateY(${currentAngleY}deg) rotateX(${tiltX}deg)`;
-      
-      // Slowly return targets to 0 to settle down
-      targetX *= 0.90;
-      targetY *= 0.90;
       
       requestAnimationFrame(updatePhysics);
     }
@@ -52,72 +56,118 @@
     // Start loop
     updatePhysics();
 
-    // Mouse interaction
-    let lastMouseX = window.innerWidth / 2;
-    
-    document.addEventListener('mousemove', (e) => {
-      const mouseX = e.clientX;
-      const movementX = mouseX - lastMouseX;
-      lastMouseX = mouseX;
+    // Mouse DOWN - Start dragging
+    swingElement.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      dragStartX = e.clientX;
+      dragStartY = e.clientY;
+      previousMouseX = e.clientX;
+      initialAngleX = currentAngleX;
+      initialAngleY = currentAngleY;
       
-      // Get bounding box of the card
-      const rect = swingElement.getBoundingClientRect();
-      const cardCenterX = rect.left + rect.width / 2;
-      const cardCenterY = rect.top + rect.height / 2;
+      swingElement.style.cursor = 'grabbing';
       
-      const distX = mouseX - cardCenterX;
-      const distY = e.clientY - cardCenterY;
-      const distance = Math.sqrt(distX * distX + distY * distY);
-      
-      // Parallax effect if near the card (adds to target)
-      if (distance < 300) {
-        // Slight twist based on mouse position relative to center
-        targetY = (distX / 300) * 15; // Max 15 deg twist
+      // Stop current velocity
+      velocityX = 0;
+      velocityY = 0;
+    });
+
+    // Mouse UP - Stop dragging
+    document.addEventListener('mouseup', () => {
+      if (isDragging) {
+        isDragging = false;
+        swingElement.style.cursor = 'grab';
         
-        // Push force if moved quickly
-        const pushForceX = movementX * 0.15;
-        // Cap the push force
-        velocityX += Math.max(Math.min(pushForceX, 15), -15);
-      } else {
-        targetY = 0; // Settle back
+        // Transfer flick momentum to velocity
+        velocityX = flickVelocityX;
       }
     });
 
-    // Touch interaction for mobile
-    let lastTouchX = 0;
-    document.addEventListener('touchmove', (e) => {
-      if(e.touches.length > 0) {
-        const touchX = e.touches[0].clientX;
-        const movementX = touchX - lastTouchX;
-        lastTouchX = touchX;
+    // Mouse interaction (Hover Parallax & Dragging)
+    document.addEventListener('mousemove', (e) => {
+      const mouseX = e.clientX;
+      const movementX = mouseX - previousMouseX;
+      previousMouseX = mouseX;
+      
+      if (isDragging) {
+        // Calculate how far mouse moved from start of drag
+        const deltaX = mouseX - dragStartX;
         
+        // Map pixel distance to rotation angle (adjust multiplier for sensitivity)
+        currentAngleX = initialAngleX + (deltaX * 0.15);
+        currentAngleY = initialAngleY + (deltaX * 0.05); // slight twist when pulled
+        
+        // Track flick velocity
+        flickVelocityX = movementX * 0.5;
+      } else {
+        // Subtle Hover Parallax (less aggressive than before)
         const rect = swingElement.getBoundingClientRect();
         const cardCenterX = rect.left + rect.width / 2;
         const cardCenterY = rect.top + rect.height / 2;
         
-        const distX = touchX - cardCenterX;
-        const distY = e.touches[0].clientY - cardCenterY;
+        const distX = mouseX - cardCenterX;
+        const distY = e.clientY - cardCenterY;
         const distance = Math.sqrt(distX * distX + distY * distY);
         
-        if (distance < 200) {
-          targetY = (distX / 200) * 15;
-          velocityX += Math.max(Math.min(movementX * 0.15, 15), -15);
-        } else {
-          targetY = 0;
+        if (distance < 250) {
+          // Push force if moved quickly, but very gentle
+          const pushForceX = movementX * 0.05;
+          velocityX += Math.max(Math.min(pushForceX, 5), -5);
         }
       }
-    }, { passive: true });
-    
-    document.addEventListener('touchstart', (e) => {
+    });
+
+    // Touch interaction for mobile
+    swingElement.addEventListener('touchstart', (e) => {
       if(e.touches.length > 0) {
-        lastTouchX = e.touches[0].clientX;
+        isDragging = true;
+        dragStartX = e.touches[0].clientX;
+        previousMouseX = dragStartX;
+        initialAngleX = currentAngleX;
+        initialAngleY = currentAngleY;
+        velocityX = 0;
+        velocityY = 0;
+      }
+    }, { passive: true });
+
+    document.addEventListener('touchend', () => {
+      if (isDragging) {
+        isDragging = false;
+        velocityX = flickVelocityX;
+      }
+    });
+
+    document.addEventListener('touchmove', (e) => {
+      if(e.touches.length > 0) {
+        const touchX = e.touches[0].clientX;
+        const movementX = touchX - previousMouseX;
+        previousMouseX = touchX;
+        
+        if (isDragging) {
+          const deltaX = touchX - dragStartX;
+          currentAngleX = initialAngleX + (deltaX * 0.15);
+          currentAngleY = initialAngleY + (deltaX * 0.05);
+          flickVelocityX = movementX * 0.5;
+        } else {
+          const rect = swingElement.getBoundingClientRect();
+          const cardCenterX = rect.left + rect.width / 2;
+          const cardCenterY = rect.top + rect.height / 2;
+          
+          const distX = touchX - cardCenterX;
+          const distY = e.touches[0].clientY - cardCenterY;
+          const distance = Math.sqrt(distX * distX + distY * distY);
+          
+          if (distance < 200) {
+            velocityX += Math.max(Math.min(movementX * 0.05, 5), -5);
+          }
+        }
       }
     }, { passive: true });
     
     // Initial entrance swing
     setTimeout(() => {
-      velocityX = 15; // Give it a good initial push
-      velocityY = 10;
+      velocityX = 15;
+      velocityY = 5;
     }, 300);
   });
 })();
