@@ -46,7 +46,9 @@
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target); // Only animate once
+        } else {
+          // Remove class when out of view so it animates again when scrolling back
+          entry.target.classList.remove('is-visible');
         }
       });
     }, observerOptions);
@@ -109,29 +111,6 @@
     requestAnimationFrame(update);
   }
 
-  /**
-   * 3. STAGGER ANIMATION — for grid children
-   * Usage: Add class="stagger-parent" to grid wrapper
-   */
-  function initStaggerAnimations() {
-    const grids = document.querySelectorAll('.stagger-parent');
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const children = entry.target.querySelectorAll('.animate-on-scroll');
-          children.forEach((child, index) => {
-            setTimeout(() => {
-              child.classList.add('is-visible');
-            }, prefersReducedMotion ? 0 : index * 100);
-          });
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.05 });
-
-    grids.forEach(grid => observer.observe(grid));
-  }
 
   /**
    * 4. PROFILE IMAGE RING — pause on reduced motion
@@ -151,7 +130,6 @@
   function init() {
     initScrollAnimations();
     initStatsCounter();
-    initStaggerAnimations();
     initProfileRing();
   }
 
