@@ -544,15 +544,18 @@
   font-size: 3rem;
   margin-bottom: 0px;
   margin-top: 0px;
-  text-align: center; /* match developerFolio */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
 }
 
 .software-skill-inline {
-  display: inline-block;
-  margin-right: 20px;
-  margin-bottom: 20px;
   text-align: center;
   cursor: default;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .software-skill-inline > i {
@@ -1194,9 +1197,13 @@
 }
 
 .splash-title-container {
-  font-size: 2.5rem;
+  font-size: clamp(1.5rem, 6vw, 2.5rem);
   margin-top: -2rem;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
 }
 
 .splash-title {
