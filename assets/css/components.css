@@ -455,6 +455,18 @@
   color: var(--color-primary-600);
 }
 
+@media (max-width: 991px) {
+  .navbar__nav,
+  #lang-toggle-desktop,
+  #theme-toggle-desktop {
+    display: none !important;
+  }
+  
+  .hamburger {
+    display: flex;
+  }
+}
+
 /* ============================================================
    6. SOCIAL LINKS
    ============================================================ */
