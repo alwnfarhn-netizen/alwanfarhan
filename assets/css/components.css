@@ -1401,3 +1401,36 @@
   color: rgba(255,255,255,0.5);
   font-weight: 600;
 }
+
+/* ==========================================================
+   MOBILE RESPONSIVENESS OVERRIDES (Components)
+   ========================================================== */
+@media (max-width: 1023px) {
+  /* Lanyard Scale Down for Mobile */
+  .lanyard-container {
+    transform: translateX(-50%) scale(0.75);
+    transform-origin: top center;
+    top: -40px;
+  }
+}
+
+@media (max-width: 767px) {
+  /* Timeline spacing on mobile */
+  .timeline {
+    padding-left: var(--space-6);
+  }
+  .timeline::before {
+    left: 6px;
+  }
+  .timeline__dot {
+    left: calc(-1 * var(--space-6) + 0px);
+    width: 14px;
+    height: 14px;
+  }
+  
+  /* Lanyard Scale Down Further */
+  .lanyard-container {
+    transform: translateX(-50%) scale(0.65);
+    top: -20px;
+  }
+}

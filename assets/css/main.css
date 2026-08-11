@@ -349,16 +349,122 @@ button {
 }
 
 /* ============================================================
-   7. RESPONSIVE BASE
+   7. GRID LAYOUTS (Mobile First Approach)
    ============================================================ */
-@media (max-width: 767px) {
+
+/* Base Grids (Mobile/Default) */
+.hero-grid,
+.about-grid,
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-8);
+  align-items: center;
+}
+
+.hero-grid {
+  text-align: center;
+}
+
+.hero-grid > div:first-child > div:first-child {
+  justify-content: center !important;
+}
+
+.hero-grid > div:first-child > p {
+  max-width: 100% !important;
+}
+
+.hero-grid > div:first-child > div[style*="flex"] {
+  justify-content: center;
+}
+
+.hero-grid > div:first-child {
+  order: 2; /* Text below image on mobile */
+}
+.hero-grid > div:last-child {
+  order: 1; /* Image above text on mobile */
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+}
+
+.projects-grid,
+.certificates-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-6);
+}
+
+.contact-form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-3);
+}
+
+/* Tablet (min-width: 640px) */
+@media (min-width: 640px) {
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Desktop (min-width: 1024px) */
+@media (min-width: 1024px) {
   :root {
-    --section-padding-y: var(--space-16);
-    --container-padding: var(--space-4);
+    --section-padding-y: var(--space-24);
+    --container-padding: var(--space-6);
   }
 
   .section-title {
-    font-size: var(--text-3xl);
+    font-size: var(--text-4xl);
+  }
+
+  .hero-grid {
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--space-16);
+    text-align: left;
+  }
+  
+  .hero-grid > div:first-child {
+    order: 1;
+  }
+  .hero-grid > div:last-child {
+    order: 2;
+  }
+  
+  .hero-grid > div:first-child > div:first-child,
+  .hero-grid > div:first-child > div[style*="flex"] {
+    justify-content: flex-start !important;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr 1.2fr;
+    gap: var(--space-20);
+  }
+
+  .projects-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .certificates-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contact-grid {
+    grid-template-columns: 1.2fr 1fr;
+    gap: var(--space-16);
+    align-items: start;
+  }
+
+  .contact-form-row {
+    grid-template-columns: 1fr 1fr;
   }
 }
 

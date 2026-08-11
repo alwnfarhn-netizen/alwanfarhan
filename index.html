@@ -210,7 +210,7 @@
       <div class="hero-blob hero-blob-2" aria-hidden="true"></div>
 
       <div class="container" style="width:100%; position: relative; z-index: 1;">
-        <div style="display: grid; grid-template-columns: 1.2fr 1fr; align-items: center; gap: 4rem;" class="hero-grid">
+        <div class="hero-grid">
 
           <!-- Hero Text -->
           <div>
@@ -324,7 +324,7 @@
       aria-labelledby="about-heading">
       <div class="container">
 
-        <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 5rem; align-items: center;" class="about-grid">
+        <div class="about-grid">
 
           <!-- About Visual -->
           <div class="animate-slide-left" style="position: relative;">
@@ -377,8 +377,7 @@
 
             <!-- Stats -->
             <div
-              class="animate-on-scroll stagger-2"
-              style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 2.5rem;"
+              class="stats-grid animate-on-scroll stagger-2"
               aria-label="Statistik pengalaman">
               <div class="stat-card">
                 <div class="stat-number">
@@ -622,8 +621,7 @@
 
         <!-- Projects Grid -->
         <div
-          class="stagger-children"
-          style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;"
+          class="projects-grid stagger-children"
           id="projects-grid"
           aria-label="Daftar proyek">
 
@@ -796,9 +794,8 @@
         </div>
 
         <div
-          class="stagger-children"
-          style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;"
-          role="list"
+          class="certificates-grid stagger-children"
+          id="certificates-grid"
           aria-label="Daftar sertifikat">
 
           <!-- Certificate 1 -->
@@ -1071,7 +1068,7 @@
           </p>
         </div>
 
-        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem; align-items: start;" class="contact-grid">
+        <div class="contact-grid">
 
           <!-- Contact Form -->
           <div class="animate-slide-left">
@@ -1202,7 +1199,7 @@
             <!-- Social Links -->
             <div class="card">
               <h3 style="font-size: 1.125rem; font-weight: 600; color: var(--text-primary); margin-bottom: 1rem;">Temukan Saya di</h3>
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+              <div class="contact-form-row">
 
                 <a
                   href="https://www.linkedin.com/in/alwan-farhan-aa5669422/"
@@ -1325,108 +1322,7 @@
   <script src="assets/js/contact.js"></script>
   <script src="assets/js/main.js"></script>
 
-  <!-- Responsive styles inline (mobile-first corrections) -->
-  <style>
-    /* Hero responsive */
-    @media (max-width: 1023px) {
-      .hero-grid {
-        grid-template-columns: 1fr !important;
-        text-align: center;
-      }
-      .hero-grid > div:first-child {
-        order: 2;
-      }
-      .hero-grid > div:last-child {
-        order: 1;
-      }
-      .hero-grid > div:first-child > div:first-child {
-        justify-content: center !important;
-      }
-      .hero-grid > div:first-child > p {
-        max-width: 100% !important;
-      }
-      .hero-grid > div:first-child > div[style*="flex"] {
-        justify-content: center;
-      }
-      .scroll-indicator { display: none; }
-    }
 
-    /* About responsive */
-    @media (max-width: 1023px) {
-      .about-grid {
-        grid-template-columns: 1fr !important;
-        gap: 3rem !important;
-      }
-    }
-
-    /* Skills responsive */
-    @media (max-width: 1023px) {
-      #skills .stagger-parent {
-        grid-template-columns: repeat(2, 1fr) !important;
-      }
-    }
-    @media (max-width: 640px) {
-      #skills .stagger-parent {
-        grid-template-columns: 1fr !important;
-      }
-    }
-
-    /* Projects responsive */
-    @media (max-width: 1023px) {
-      #projects-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-      }
-    }
-    @media (max-width: 640px) {
-      #projects-grid {
-        grid-template-columns: 1fr !important;
-      }
-    }
-
-    /* Certs responsive */
-    @media (max-width: 767px) {
-      #certificates .stagger-parent {
-        grid-template-columns: 1fr !important;
-      }
-    }
-
-    /* Contact responsive */
-    @media (max-width: 1023px) {
-      .contact-grid {
-        grid-template-columns: 1fr !important;
-        gap: 2.5rem !important;
-      }
-    }
-
-    /* Hamburger show on mobile */
-    @media (max-width: 1023px) {
-      .hamburger {
-        display: flex !important;
-      }
-      .navbar__nav {
-        display: none !important;
-      }
-    }
-
-    /* Footer responsive */
-    @media (max-width: 767px) {
-      .footer__inner {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-      }
-      .footer__inner > div:last-child {
-        align-items: center !important;
-      }
-    }
-
-    /* Stats responsive */
-    @media (max-width: 480px) {
-      .about-grid .stat-card {
-        padding: 1rem 0.75rem;
-      }
-    }
-  </style>
 
 </body>
 </html>
