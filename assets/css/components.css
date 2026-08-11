@@ -568,15 +568,40 @@
   transition: color 0.2s;
 }
 
-/* On hover, both icon and text change color to primary */
+/* On hover, both icon, svg and text change color to primary */
 .software-skill-inline:hover > i,
+.software-skill-inline:hover > svg,
 .software-skill-inline:hover > p {
   color: var(--color-primary-600);
 }
 
 [data-theme="dark"] .software-skill-inline:hover > i,
+[data-theme="dark"] .software-skill-inline:hover > svg,
 [data-theme="dark"] .software-skill-inline:hover > p {
   color: var(--color-primary-400);
+}
+
+/* SimpleIcons Mask Technique */
+.software-skill-inline > .simple-icon {
+  display: inline-block;
+  width: 3rem;
+  height: 3rem;
+  background-color: var(--text-secondary);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  transition: background-color 0.2s;
+}
+
+.software-skill-inline:hover > .simple-icon {
+  background-color: var(--color-primary-600);
+}
+
+[data-theme="dark"] .software-skill-inline:hover > .simple-icon {
+  background-color: var(--color-primary-400);
 }
 
 .skills-bullets {
