@@ -12,11 +12,8 @@
 (function ContactFormManager() {
   'use strict';
 
-  // EmailJS Configuration
-  // TODO: Replace with actual EmailJS credentials
-  const EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
-  const EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
-  const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+  // Formspree Configuration
+  const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mljrbozl';
 
   /**
    * Validate a single field
@@ -211,37 +208,41 @@
       setButtonLoading(submitBtn, true);
       announceStatus('Mengirim pesan...');
 
-      // Check if EmailJS is configured
-      if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
+      // Check if Formspree is configured
+      if (FORMSPREE_ENDPOINT === 'YOUR_FORMSPREE_ENDPOINT') {
         // Demo mode — simulate sending
         await new Promise(resolve => setTimeout(resolve, 1500));
         form.reset();
         setButtonLoading(submitBtn, false);
-        showToast('Pesan berhasil dikirim! Saya akan segera membalas. 🎉', 'success');
-        announceStatus('Pesan berhasil dikirim! Terima kasih telah menghubungi saya.');
+        showToast('Mode Demo: Pesan berhasil dikirim! (Konfigurasi endpoint untuk pengiriman asli). 🎉', 'success');
+        announceStatus('Pesan berhasil dikirim dalam mode demo.');
         return;
       }
 
-      // Send via EmailJS
+      // Send via Formspree API
       try {
-        const templateParams = {
-          from_name:  form.querySelector('#contact-name').value.trim(),
-          from_email: form.querySelector('#contact-email').value.trim(),
-          message:    form.querySelector('#contact-message').value.trim(),
-          to_name:    'M. Alwan Farhan',
-        };
+        const formData = new FormData(form);
+        const response = await fetch(FORMSPREE_ENDPOINT, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
 
-        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams, EMAILJS_PUBLIC_KEY);
-
-        form.reset();
-        setButtonLoading(submitBtn, false);
-        showToast('Pesan berhasil dikirim! Saya akan segera membalas. 🎉', 'success');
-        announceStatus('Pesan berhasil dikirim! Terima kasih telah menghubungi saya.');
+        if (response.ok) {
+          form.reset();
+          setButtonLoading(submitBtn, false);
+          showToast('Pesan berhasil dikirim! Saya akan segera membalas. 🎉', 'success');
+          announceStatus('Pesan berhasil dikirim! Terima kasih telah menghubungi saya.');
+        } else {
+          throw new Error('Formspree returned ' + response.status);
+        }
 
       } catch (error) {
-        console.error('EmailJS Error:', error);
+        console.error('Formspree Error:', error);
         setButtonLoading(submitBtn, false);
-        showToast('Gagal mengirim pesan. Silakan coba lagi atau hubungi via WhatsApp.', 'error');
+        showToast('Gagal mengirim pesan. Silakan coba lagi atau hubungi via Email.', 'error');
         announceStatus('Gagal mengirim pesan. Silakan coba cara lain untuk menghubungi saya.');
       }
     });

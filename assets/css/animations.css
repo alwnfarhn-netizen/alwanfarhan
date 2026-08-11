@@ -401,7 +401,68 @@
 }
 
 /* ============================================================
-   14. REDUCED MOTION — OVERRIDE ALL (A11Y — WAJIB)
+   14. MARQUEE / INFINITE SCROLL (DOKUMENTASI GALERI)
+   ============================================================ */
+.marquee-container {
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+  position: relative;
+  display: flex;
+}
+
+/* Optional fading edges */
+.marquee-container::before,
+.marquee-container::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 80px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.marquee-container::before {
+  left: 0;
+  background: linear-gradient(to right, var(--color-bg) 0%, transparent 100%);
+}
+
+.marquee-container::after {
+  right: 0;
+  background: linear-gradient(to left, var(--color-bg) 0%, transparent 100%);
+}
+
+.marquee-content {
+  display: flex;
+  gap: 1.5rem;
+  /* Adjust speed here. 25s for moderate scrolling. */
+  animation: marquee 25s linear infinite;
+  /* Add padding to account for the flex gap during transition */
+  padding-right: 1.5rem;
+}
+
+.marquee-content:hover {
+  animation-play-state: paused;
+}
+
+.marquee-content > * {
+  flex-shrink: 0;
+  width: 300px;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    /* Move by half of the content since it's duplicated */
+    transform: translateX(calc(-50% - 0.75rem));
+  }
+}
+
+/* ============================================================
+   15. REDUCED MOTION — OVERRIDE ALL (A11Y — WAJIB)
    ============================================================ */
 /*
 @media (prefers-reduced-motion: reduce) {
